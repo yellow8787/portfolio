@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Yueh Rong Wu — AI Product Manager</title>
+<meta name="viewport" content="width=1280" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0b0b10;
+    --ink-2: #14141b;
+    --ink-3: #1e1e28;
+    --paper: #FAFAF6;
+    --paper-2: #F4F3ED;
+    --line: #E8E6DD;
+    --line-2: #DCDAD0;
+    --muted: #6b6a63;
+    --muted-2: #8d8c82;
+    --fg: #161519;
+    --accent: oklch(0.62 0.19 285);
+    --accent-2: oklch(0.72 0.17 290);
+    --accent-soft: oklch(0.95 0.04 285);
+    --accent-ink: oklch(0.42 0.19 285);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--fg); }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .serif { font-family: 'Instrument Serif', 'Times New Roman', serif; font-style: italic; font-weight: 400; }
+
+  /* ---------- App shell ---------- */
+  .app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+    max-width: 1440px;
+    margin: 0 auto;
+    background: var(--paper);
+  }
+
+  /* ---------- Sidebar ---------- */
+  .side {
+    position: sticky; top: 0;
+    height: 100vh;
+    padding: 28px 24px;
+    border-right: 1px solid var(--line);
+    background: var(--paper);
+    display: flex; flex-direction: column;
+  }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+  .avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .name {
+    margin-top: 18px;
+    font-size: 18px; font-weight: 600; letter-spacing: -0.015em;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .name .paren { color: var(--muted); font-weight: 400; }
+  .role { margin-top: 6px; font-size: 12px; color: var(--muted); }
+  .bio {
+    margin-top: 14px;
+    font-size: 12.5px; color: #3c3b40; line-height: 1.55;
+    max-width: 210px;
+  }
+  .nav { margin-top: 28px; display: flex; flex-direction: column; gap: 2px; }
+  .nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    font-size: 13.5px; color: #33323a;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+  }
+  .nav a:hover { background: #f0eee6; color: var(--ink); }
+  .nav a.active { background: #eeeadf; color: var(--ink); font-weight: 500; }
+  .nav svg { width: 15px; height: 15px; stroke: currentColor; stroke-width: 1.6; fill: none; }
+
+  .side-foot { margin-top: auto; }
+  .connect-label { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; letter-spacing: -0.005em; }
+  .icons { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 30px; height: 30px; border-radius: 8px;
+    border: 1px solid var(--line-2);
+    display: grid; place-items: center;
+    background: transparent; cursor: pointer;
+    transition: background .15s ease, border-color .15s ease;
+    color: #4a4952;
+    text-decoration: none;
+  }
+  .icon-btn:hover { background: #f0eee6; border-color: #cfcdc2; color: var(--ink); }
+  .icon-btn svg { width: 14px; height: 14px; }
+  .copyright {
+    margin-top: 22px;
+    font-size: 10.5px; color: #9a998f; line-height: 1.6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ---------- Main column ---------- */
+  .main { min-width: 0; }
+
+  /* Top bar */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+    background: var(--ink);
+    color: #fff;
+    border-bottom: 1px solid #1c1c26;
+  }
+  .topbar-brand {
+    font-size: 12.5px; color: #a8a6b8; letter-spacing: 0.02em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .topbar-brand b { color: #fff; font-weight: 500; letter-spacing: -0.005em; font-family: 'Inter', sans-serif; }
+  .topnav { display: flex; align-items: center; gap: 4px; }
+  .topnav a {
+    color: #c9c7d6;
+    font-size: 13px;
+    padding: 7px 12px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+  }
+  .topnav a:hover { color: #fff; background: rgba(255,255,255,0.05); }
+  .btn-connect {
+    margin-left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px; font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none; cursor: pointer;
+    transition: background .18s ease, transform .18s ease;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.1) inset, 0 1px 2px rgba(0,0,0,0.2);
+    text-decoration: none;
+    display: inline-flex; align-items: center;
+  }
+  .btn-connect:hover { background: var(--accent-2); transform: translateY(-1px); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(ellipse 900px 500px at 100% 60%, rgba(139, 92, 246, 0.22), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 80% 100%, rgba(99, 102, 241, 0.15), transparent 70%),
+      linear-gradient(180deg, #0a0a12 0%, #0b0b14 100%);
+    color: #fff;
+    padding: 64px 48px 56px;
+    overflow: hidden;
+  }
+  .hero-wave {
+    position: absolute; right: -40px; top: 40px;
+    width: 560px; height: 360px;
+    opacity: 0.85; pointer-events: none;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #a8a6b8; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: #6ee7b7; box-shadow: 0 0 12px #6ee7b7; }
+  h1.hero-h {
+    font-size: 52px; line-height: 1.08;
+    font-weight: 700; letter-spacing: -0.035em;
+    max-width: 720px;
+    margin: 0 0 24px;
+    color: #fff;
+  }
+  h1.hero-h .accent {
+    color: transparent;
+    background: linear-gradient(92deg, #c4b5fd 0%, #a78bfa 55%, #7c5cff 100%);
+    -webkit-background-clip: text; background-clip: text;
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    max-width: 540px;
+    font-size: 14.5px; color: #b6b4c6; line-height: 1.6;
+    margin: 0 0 36px;
+  }
+
+  .metrics {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 880px;
+  }
+  .metric {
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 18px 20px;
+    backdrop-filter: blur(8px);
+    position: relative;
+    transition: background .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .metric:hover { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+  .metric-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; color: #8d8aa3; }
+  .metric-head svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+  .metric-num {
+    font-size: 26px; font-weight: 700; letter-spacing: -0.02em;
+    color: #c4b5fd;
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-label { font-size: 12.5px; color: #d6d3e4; margin-top: 4px; font-weight: 500; }
+  .metric-sub { font-size: 11.5px; color: #8a879e; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- Section: featured projects ---------- */
+  .section {
+    padding: 48px 48px 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .section-title {
+    font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .section-link {
+    font-size: 13px; color: var(--accent-ink); text-decoration: none;
+    font-weight: 500;
+  }
+  .section-link:hover { text-decoration: underline; }
+
+  .featured {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+  }
+  .fcard {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: #ecebe3;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+    border: 1px solid var(--line);
+  }
+  .fcard:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -14px rgba(20,20,30,0.2); }
+  .fcard .num {
+    position: absolute; top: 10px; left: 12px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    background: rgba(0,0,0,0.25);
+    padding: 3px 7px; border-radius: 6px;
+    backdrop-filter: blur(6px);
+    z-index: 2;
+  }
+  .fcard .title {
+    position: absolute; top: 10px; right: 12px;
+    font-size: 12px; color: #fff; font-weight: 600;
+    text-align: right; line-height: 1.25;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    z-index: 2;
+    max-width: 60%;
+  }
+  .fcard .play {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(6px);
+    display: grid; place-items: center;
+    border: 1px solid rgba(255,255,255,0.4);
+    z-index: 2;
+  }
+  .fcard .play svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
+  .fcard .media {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center top;
+  }
+
+  /* ---------- Project rows ---------- */
+  .row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 32px;
+    padding: 36px 48px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .row + .row { margin-top: 0; }
+  .row-alt { background: var(--paper-2); }
+  .row-meta .num {
+    font-size: 36px; font-weight: 400;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    line-height: 1;
+  }
+  .row-meta .p-title {
+    margin-top: 14px;
+    font-size: 18px; font-weight: 600; color: var(--ink);
+    letter-spacing: -0.01em; line-height: 1.3;
+  }
+  .row-meta .p-desc {
+    margin-top: 10px;
+    font-size: 12.5px; color: var(--muted); line-height: 1.55;
+  }
+  .row-meta .rule {
+    margin-top: 16px;
+    width: 28px; height: 2px; background: var(--accent);
+    border-radius: 2px;
+  }
+  .row-body { display: grid; gap: 20px; }
+
+  /* Panels inside rows */
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: 14px;
+    min-width: 0;
+  }
+  .panel-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* Placeholder media */
+  .ph {
+    position: relative;
+    background:
+      repeating-linear-gradient(135deg, #ecebe3 0 10px, #f4f3ed 10px 20px);
+    border-radius: 8px;
+    overflow: hidden;
+    display: grid; place-items: center;
+  }
+  .ph-dark {
+    background:
+      repeating-linear-gradient(135deg, #1a1a24 0 10px, #20202c 10px 20px);
+  }
+  .ph-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #73716a;
+    background: rgba(255,255,255,0.9);
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 2;
+  }
+  .ph-dark .ph-caption { background: rgba(255,255,255,0.08); color: #b6b4c6; }
+  .ph-play {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent);
+    display: grid; place-items: center;
+    box-shadow: 0 6px 20px -6px rgba(124,92,255,0.5);
+    z-index: 2;
+  }
+  .ph-play svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
+
+  /* Media fill helper */
+  .media-fill {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    z-index: 1;
+  }
+  video.media-fill { object-position: center; }
+
+  /* Grids used across rows */
+  .grid-4 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  .grid-2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  .grid-3 > *, .grid-4 > *, .grid-2 > * { min-width: 0; }
+
+  /* Flow diagram */
+  .flow { display: flex; align-items: center; gap: 6px; }
+  .flow-node {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    background: #fff;
+    min-width: 0;
+  }
+  .flow-node .icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    margin: 0 auto 6px;
+    background: var(--accent-soft);
+    display: grid; place-items: center;
+    color: var(--accent-ink);
+  }
+  .flow-node .icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+  .flow-node .lbl {
+    font-size: 10.5px; color: var(--ink); font-weight: 500; line-height: 1.2;
+  }
+  .flow-arrow { color: var(--line-2); flex-shrink: 0; }
+  .flow-arrow svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  /* Impact list */
+  .impact-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .impact-list li {
+    display: flex; gap: 8px; align-items: flex-start;
+    font-size: 12.5px; color: #2c2b32; line-height: 1.45;
+  }
+  .impact-list li::before {
+    content: ""; width: 14px; height: 14px; flex-shrink: 0;
+    background: var(--accent-soft);
+    border-radius: 4px; margin-top: 2px;
+    background-image:
+      linear-gradient(45deg, transparent 40%, var(--accent-ink) 40% 60%, transparent 60%),
+      linear-gradient(-45deg, transparent 55%, var(--accent-ink) 55% 75%, transparent 75%);
+  }
+
+  .see-more {
+    font-size: 12.5px; color: var(--accent-ink);
+    text-decoration: none; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 6px;
+  }
+  .see-more:hover { gap: 7px; }
+
+  /* Stats big */
+  .stat-big {
+    font-size: 28px; font-weight: 700; color: var(--accent-ink);
+    letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+  }
+  .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* Phone screens */
+  .phone {
+    aspect-ratio: 9/18;
+    border-radius: 16px;
+    border: 6px solid #1a1a22;
+    background: #f6f5ee;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 16px -8px rgba(20,20,30,0.25);
+  }
+  .phone::before {
+    content: "";
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 40%; height: 10px;
+    background: #1a1a22;
+    border-radius: 0 0 8px 8px;
+    z-index: 3;
+  }
+  .phone img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    z-index: 1;
+  }
+
+  /* Chart */
+  .chart {
+    aspect-ratio: 16/9;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+    background: #fff;
+    position: relative;
+  }
+
+  /* Tech stack chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; color: #4a4952;
+    padding: 3px 7px; border-radius: 5px;
+    background: #ecebe3; border: 1px solid var(--line-2);
+  }
+
+  /* GitHub card */
+  .gh-card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+    background: #fff;
+  }
+  .gh-head { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .gh-head svg { width: 16px; height: 16px; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--line-2);
+    background: #fff;
+    color: var(--fg);
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: background .15s ease;
+  }
+  .btn-outline:hover { background: var(--paper-2); }
+
+  /* Problem card */
+  .p-box { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: #fff; }
+  .p-box .p-head { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+  .p-box .p-head svg { width: 14px; height: 14px; color: var(--accent-ink); stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .p-box .p-text { font-size: 12px; color: #3f3e45; line-height: 1.5; }
+
+  /* Footer */
+  .footer {
+    padding: 22px 48px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-2);
+  }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Fine line */
+  .thin-rule { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 14px; }
+
+  /* ByteDance flow grid */
+  .bd-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  }
+  .bd-node {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    font-size: 11px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .bd-node .bd-label { font-weight: 600; color: var(--ink); }
+  .bd-node .bd-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* KPI row for automation */
+  .kpi-row { display: grid; gap: 10px; }
+  .kpi-row .k { display: flex; gap: 8px; align-items: baseline; }
+  .kpi-row .k .n { font-size: 18px; font-weight: 700; color: var(--accent-ink); letter-spacing: -0.01em; }
+  .kpi-row .k .t { font-size: 12px; color: #3f3e45; }
+
+  /* P05 screenshot */
+  .demo-img {
+    width: 100%; border-radius: 8px;
+    border: 1px solid var(--line);
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside class="side">
+    <div class="avatar">
+      <img src="avatar.jpg" alt="Yueh Rong Wu">
+    </div>
+    <div class="name">Yueh Rong Wu<br><span class="paren">(Yellow Wu)</span></div>
+    <div class="role">AI Product Manager</div>
+    <div class="bio">Building AI systems that turn user intent into real business impact.</div>
+
+    <nav class="nav" style="margin-top: 32px;">
+      <a href="#home" class="active">
+        <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>
+        Home
+      </a>
+      <a href="#projects">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg>
+        Projects
+      </a>
+      <a href="resume.pdf" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>
+        Resume
+      </a>
+      <a href="#contact">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Contact
+      </a>
+    </nav>
+
+    <div class="side-foot">
+      <div class="connect-label">Let's connect!</div>
+      <div class="icons">
+        <a class="icon-btn" href="https://www.linkedin.com/in/yueh-rong-wu-299aa9165" target="_blank" rel="noopener" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11.02 5.01A2.5 2.5 0 014.98 3.5zM3 9.5h4V21H3V9.5zM9 9.5h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21H17.6v-5.16c0-1.23-.02-2.82-1.72-2.82-1.72 0-1.98 1.34-1.98 2.73V21H10.1V9.5H9z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://github.com/yellow8787/ai_enrichment" target="_blank" rel="noopener" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 007.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.3-.52-1.48.11-3.08 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.5 3.17-1.18 3.17-1.18.64 1.6.24 2.78.12 3.08.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.77 1.06.77 2.13v3.16c0 .31.2.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+        </a>
+        <a class="icon-btn" href="mailto:tfg10211608@gmail.com" title="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        </a>
+      </div>
+      <div class="copyright">© 2026 Yueh Rong Wu<br>All rights reserved.</div>
+    </div>
+  </aside>
+
+  <!-- ============== MAIN ============== -->
+  <main class="main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-brand"><b>AI PM Portfolio</b></div>
+      <nav class="topnav">
+        <a href="#projects">Projects</a>
+        <a class="btn-connect" href="mailto:tfg10211608@gmail.com">Let's connect</a>
+      </nav>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <canvas id="waveCanvas" style="position:absolute; right:-20px; top:20px; width:620px; height:400px; pointer-events:none; opacity:0.9;"></canvas>
+
+      <div class="eyebrow"><span class="dot"></span>Available for AI PM roles · 2026</div>
+
+      <h1 class="hero-h">
+        I build AI systems<br>
+        that turn user intent<br>
+        into scalable <span class="accent">business impact.</span>
+      </h1>
+      <p class="hero-sub">
+        AI Product Manager with experience in LLM applications, monetization, data growth,
+        and cross-functional leadership — shipped at ByteDance and Perfect Corp.
+      </p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-head">
+            <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-6"/><path d="M15 7h5v5"/></svg>
+            <span class="mono" style="font-size:10.5px; letter-spacing:0.08em;">01 / IMPACT</span>
+          </div>
+          <div class="metric-num">+30%</div>
+          <div class="metric-label">Revenue growth</div>
+          <div class="metric-sub">from AI Editing Agent</div>
+        </div>
+        <div class="metric">
+          <div class="metric-head">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+            <span class="mono" style="font-size:10.5px; letter-spacing:0.08em;">02 / QUALITY</span>
+          </div>
+          <div class="metric-num">45% → 86%</div>
+          <div class="metric-label">Accuracy improvement</div>
+          <div class="metric-sub">AI enrichment · ByteDance</div>
+        </div>
+        <div class="metric">
+          <div class="metric-head">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14 20c0-2.2 1.8-4 4-4s4 1.8 4 4"/></svg>
+            <span class="mono" style="font-size:10.5px; letter-spacing:0.08em;">03 / REACH</span>
+          </div>
+          <div class="metric-num">5M+</div>
+          <div class="metric-label">Users impacted</div>
+          <div class="metric-sub">across AI products</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section class="section reveal" id="projects">
+      <div class="section-head">
+        <div class="section-title">Featured Projects</div>
+        <a class="section-link" href="#p1">View all projects →</a>
+      </div>
+
+      <div class="featured">
+        <!-- 01 AI Editing Agent -->
+        <a class="fcard" href="#p1">
+          <div class="media" style="
+            background:
+              linear-gradient(180deg, rgba(10,10,20,0.08) 0%, rgba(10,10,20,0.45) 100%),
+              url('p1-after.jpg') center top / cover no-repeat;"></div>
+          <div class="num">01</div>
+          <div class="title">AI Editing<br>Agent</div>
+          <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+        <!-- 02 AI Mix -->
+        <a class="fcard" href="#p2">
+          <div class="media" style="
+            background:
+              linear-gradient(180deg, rgba(40,20,80,0.25) 0%, rgba(10,10,30,0.6) 100%),
+              url('card-2.jpg') center top / cover no-repeat;"></div>
+          <div class="num" style="background:rgba(0,0,0,0.35);">02</div>
+          <div class="title">AI Mix</div>
+          <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </a>
+        <!-- 03 Enrichment -->
+        <a class="fcard" href="#p3">
+          <div class="media" style="background: linear-gradient(135deg, #0d0d18, #1a1530 60%, #2a1850);"></div>
+          <div class="num">03</div>
+          <div class="title">AI Enrichment<br><span style="font-weight:400; color:#c4b5fd;">(ByteDance)</span></div>
+          <svg viewBox="0 0 200 220" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+            <defs>
+              <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#a78bfa" stop-opacity="0.4"/>
+                <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M10 180 L40 170 L70 160 L100 130 L130 90 L160 60 L190 30" stroke="#a78bfa" stroke-width="2" fill="none"/>
+            <path d="M10 180 L40 170 L70 160 L100 130 L130 90 L160 60 L190 30 L190 220 L10 220 Z" fill="url(#lg1)"/>
+          </svg>
+        </a>
+        <!-- 04 Account System -->
+        <a class="fcard" href="#p4">
+          <div class="media" style="
+            background:
+              linear-gradient(180deg, rgba(10,10,20,0.05) 0%, rgba(10,10,20,0.5) 100%),
+              url('p4-screen-1.jpg') center top / cover no-repeat;"></div>
+          <div class="num">04</div>
+          <div class="title">Account System /<br>Plus Pro Plan</div>
+        </a>
+        <!-- 05 ByteDance Automation -->
+        <a class="fcard" href="#p5">
+          <div class="media" style="
+            background:
+              linear-gradient(180deg, rgba(10,10,20,0.0) 0%, rgba(10,10,20,0.35) 100%),
+              url('card-5.jpg') center top / cover no-repeat;"></div>
+          <div class="num" style="color:#fff; background:rgba(0,0,0,0.3);">05</div>
+          <div class="title" style="color:#fff; text-shadow: 0 1px 6px rgba(0,0,0,0.6);">ByteDance<br>Automation</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== PROJECT 01: AI Editing Agent ============== -->
+    <section class="row reveal" id="p1">
+      <div class="row-meta">
+        <div class="num">01</div>
+        <div class="p-title">AI Editing<br>Agent</div>
+        <div class="p-desc">Turn user intent into a fully edited photo with one prompt.</div>
+        <div class="rule"></div>
+      </div>
+      <div class="row-body">
+        <div class="grid-3" style="grid-template-columns: 1.3fr 1fr 1.4fr;">
+          <!-- DEMO -->
+          <div>
+            <div class="panel-label">DEMO</div>
+            <div style="max-width:190px; aspect-ratio:9/16; overflow:hidden; border-radius:16px; background:#000; margin:0 auto; border:4px solid #1a1a22; box-shadow:0 8px 24px -8px rgba(0,0,0,0.35);">
+              <video
+                src="p1-demo.mp4"
+                autoplay muted loop playsinline
+                style="width:100%; height:100%; object-fit:cover; display:block;">
+              </video>
+            </div>
+          </div>
+          <!-- RESULT Before/After -->
+          <div>
+            <div class="panel-label">RESULT</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <div class="ph" style="aspect-ratio: 3/4; overflow:hidden;">
+                <img src="p1-before.jpg" class="media-fill" alt="Before: Editing Copilot prompt">
+                <div class="ph-caption" style="position:absolute; top:8px; left:8px; font-size:9.5px;">BEFORE</div>
+              </div>
+              <div class="ph" style="aspect-ratio: 3/4; overflow:hidden; background:#111;">
+                <img src="p1-after.jpg" class="media-fill" alt="After: AI-generated anime styles">
+                <div class="ph-caption" style="position:absolute; top:8px; left:8px; font-size:9.5px; background:var(--accent-soft); color:var(--accent-ink);">AFTER</div>
+              </div>
+            </div>
+            <div style="font-size:11.5px; color:var(--muted); margin-top:8px; line-height:1.45;">From prompt → final edited<br>photo in one step.</div>
+          </div>
+          <!-- HOW IT WORKS -->
+          <div>
+            <div class="panel-label">HOW IT WORKS</div>
+            <div class="flow">
+              <div class="flow-node">
+                <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h16"/></svg></div>
+                <div class="lbl">User<br>Prompt</div>
+              </div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node">
+                <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></div>
+                <div class="lbl">LLM<br>Understand</div>
+              </div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node">
+                <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 10h8M8 14h5"/></svg></div>
+                <div class="lbl">Task<br>Planning</div>
+              </div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node">
+                <div class="icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><circle cx="12" cy="16" r="3"/><path d="M8 11l4 5M16 11l-4 5"/></svg></div>
+                <div class="lbl">Model<br>Orchestration</div>
+              </div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node">
+                <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="10" cy="10" r="2"/><path d="M4 17l6-5 4 4 3-3 3 3"/></svg></div>
+                <div class="lbl">Final<br>Output</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 16px;">
+              <div class="panel-label" style="margin-bottom: 6px;">IMPACT</div>
+              <ul class="impact-list">
+                <li>+30% revenue growth</li>
+                <li>Reduced editing steps from multi-step to single prompt</li>
+                <li>Higher conversion &amp; user satisfaction</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PROJECT 02: AI Mix ============== -->
+    <section class="row row-alt reveal" id="p2">
+      <div class="row-meta">
+        <div class="num">02</div>
+        <div class="p-title">AI Mix</div>
+        <div class="p-desc">Transform static images into dynamic AI-generated visuals.</div>
+        <div class="rule"></div>
+      </div>
+      <div class="row-body">
+        <div class="grid-3" style="grid-template-columns: 1fr 1.3fr 1fr;">
+          <!-- SOURCE IMAGE -->
+          <div>
+            <div class="panel-label">BEFORE</div>
+            <div class="ph" style="aspect-ratio: 4/5; overflow:hidden; background:#000;">
+              <img src="p2-source.jpg" class="media-fill" alt="Source photo">
+            </div>
+          </div>
+          <!-- RESULT VIDEO -->
+          <div>
+            <div class="panel-label">AFTER (VIDEO)</div>
+            <div class="ph ph-dark" style="aspect-ratio: 4/5; overflow:hidden; background:#0a0a14;">
+              <video
+                src="p2-result.mp4"
+                autoplay muted loop playsinline
+                style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;">
+              </video>
+              <div class="ph-caption" style="position:absolute; bottom:10px; left:10px; z-index:2;">generated video</div>
+            </div>
+          </div>
+          <!-- KEY INSIGHT -->
+          <div>
+            <div class="panel-label">RESULT</div>
+            <div class="p-box" style="margin-bottom: 12px;">
+              <div class="p-head">
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" fill="currentColor"/></svg>
+                One-line result
+              </div>
+              <div class="p-text">Transform static images into <b>dynamic AI-generated visuals</b> with one click.</div>
+            </div>
+            <div class="panel-label">KEY INSIGHT</div>
+            <div class="p-text" style="font-size: 12px; color:#3f3e45; line-height:1.55;">Users value <b>shareability</b> and <b>visual impact</b> more than precision — the viral loop compounds.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PROJECT 03: AI Enrichment ============== -->
+    <section class="row reveal" id="p3">
+      <div class="row-meta">
+        <div class="num">03</div>
+        <div class="p-title">AI Enrichment<br>(ByteDance)</div>
+        <div class="p-desc">Built ML pipeline to improve seller targeting accuracy.</div>
+        <div class="rule"></div>
+      </div>
+      <div class="row-body">
+        <div class="grid-4" style="grid-template-columns: 1fr 1.6fr 1.2fr 1fr;">
+          <!-- PROBLEM -->
+          <div>
+            <div class="panel-label">PROBLEM</div>
+            <div class="p-box">
+              <div class="p-head">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/></svg>
+                Accuracy gap
+              </div>
+              <div class="p-text">Seller targeting accuracy was only <b>~45%</b>. Manual process was time-consuming and inconsistent.</div>
+            </div>
+          </div>
+          <!-- SOLUTION -->
+          <div>
+            <div class="panel-label">SOLUTION</div>
+            <div class="flow" style="margin-top:2px;">
+              <div class="flow-node"><div class="icon"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div><div class="lbl">Data<br>Collection</div></div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 11l8-4M8 13l8 4"/></svg></div><div class="lbl">Feature<br>Engineering</div></div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node"><div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg></div><div class="lbl">Model<br>Training</div></div>
+              <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+              <div class="flow-node"><div class="icon"><svg viewBox="0 0 24 24"><path d="M3 17l4-6 4 4 5-8 5 6"/><path d="M3 20h18"/></svg></div><div class="lbl">Prediction<br>Pipeline</div></div>
+            </div>
+            <div class="chips">
+              <span class="chip">Tech Stack:</span>
+              <span class="chip">Python</span>
+              <span class="chip">Pandas</span>
+              <span class="chip">Scikit-learn</span>
+              <span class="chip">XGBoost</span>
+              <span class="chip">Airflow</span>
+            </div>
+          </div>
+          <!-- RESULT chart -->
+          <div>
+            <div class="panel-label">RESULT</div>
+            <div class="stat-big">45% → 86%</div>
+            <div class="stat-sub" style="margin-bottom: 8px;">Accuracy improvement</div>
+            <svg viewBox="0 0 240 110" style="width:100%; height:auto; border:1px solid var(--line); border-radius:8px; background:#fff; padding:6px;">
+              <defs>
+                <linearGradient id="fg3" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/>
+                  <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="#eceae0" stroke-width="1">
+                <line x1="20" y1="20" x2="230" y2="20"/>
+                <line x1="20" y1="50" x2="230" y2="50"/>
+                <line x1="20" y1="80" x2="230" y2="80"/>
+              </g>
+              <path d="M25 80 L65 72 L105 60 L145 40 L185 25 L220 18" stroke="oklch(0.62 0.19 285)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M25 80 L65 72 L105 60 L145 40 L185 25 L220 18 L220 95 L25 95 Z" fill="url(#fg3)"/>
+              <circle cx="25" cy="80" r="3" fill="#fff" stroke="oklch(0.62 0.19 285)" stroke-width="2"/>
+              <circle cx="220" cy="18" r="3" fill="oklch(0.62 0.19 285)"/>
+              <text x="25" y="105" font-family="JetBrains Mono" font-size="9" fill="#8d8c82">45%</text>
+              <text x="205" y="105" font-family="JetBrains Mono" font-size="9" fill="#8d8c82">86%</text>
+            </svg>
+          </div>
+          <!-- GITHUB -->
+          <div>
+            <div class="panel-label">GITHUB</div>
+            <div class="gh-card">
+              <div class="gh-head">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12a11.5 11.5 0 007.86 10.93c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.3-.52-1.48.11-3.08 0 0 .97-.31 3.18 1.18a11 11 0 015.8 0c2.2-1.5 3.17-1.18 3.17-1.18.64 1.6.24 2.78.12 3.08.74.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.26 5.69.41.36.77 1.06.77 2.13v3.16c0 .31.2.67.8.56A11.5 11.5 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+                ai_enrichment
+              </div>
+              <div class="p-text" style="font-size:11.5px;">ML pipeline for seller targeting accuracy — from 45% to 86%.</div>
+              <a class="btn-outline" href="https://github.com/yellow8787/ai_enrichment" target="_blank" rel="noopener">
+                View Repository
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17l10-10M8 7h9v9"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PROJECT 04: Account System ============== -->
+    <section class="row row-alt reveal" id="p4">
+      <div class="row-meta">
+        <div class="num">04</div>
+        <div class="p-title">Account System /<br>Plus Pro Plan</div>
+        <div class="p-desc">Designed monetization system and pricing strategy to drive growth.</div>
+        <div class="rule"></div>
+      </div>
+      <div class="row-body">
+        <div class="grid-2" style="grid-template-columns: 1.7fr 1fr;">
+          <div>
+            <div class="panel-label">SCREENSHOTS</div>
+            <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
+              <div class="phone">
+                <img src="p4-screen-1.jpg" alt="Plus / Pro pricing page">
+              </div>
+              <div class="phone">
+                <img src="p4-screen-2.jpg" alt="My Credits page">
+              </div>
+              <div class="phone">
+                <img src="p4-screen-3.jpg" alt="Onboarding paywall">
+              </div>
+              <div class="phone">
+                <img src="p4-screen-4.jpg" alt="Email verification">
+              </div>
+              <div class="phone">
+                <img src="p4-screen-5.jpg" alt="Sign in success">
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-label">STRATEGY &amp; IMPACT</div>
+            <ul class="impact-list">
+              <li>Designed credit system + hybrid subscription model (Plus / Pro)</li>
+              <li>Ran pricing experiments and A/B tests</li>
+              <li>Improved conversion rate and increased ARPPU</li>
+            </ul>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap: 10px; margin-top: 18px;">
+              <div class="p-box">
+                <div class="stat-big" style="font-size:22px;">+22%</div>
+                <div class="stat-sub">Paid conversion</div>
+              </div>
+              <div class="p-box">
+                <div class="stat-big" style="font-size:22px;">+41%</div>
+                <div class="stat-sub">ARPPU lift</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== PROJECT 05: ByteDance Automation ============== -->
+    <section class="row reveal" id="p5">
+      <div class="row-meta">
+        <div class="num">05</div>
+        <div class="p-title">ByteDance<br>Automation</div>
+        <div class="p-desc">Automate data processing and reporting to improve efficiency.</div>
+        <div class="rule"></div>
+      </div>
+      <div class="row-body">
+        <div class="grid-3" style="grid-template-columns: 1.4fr 1fr 1.3fr;">
+          <div>
+            <div class="panel-label">SOLUTION OVERVIEW</div>
+            <div class="bd-grid">
+              <div class="bd-node"><div class="bd-label">Data Sources</div><div class="bd-sub">(internal systems)</div></div>
+              <div class="bd-node"><div class="bd-label">Data Collection</div><div class="bd-sub">APIs / SQL</div></div>
+              <div class="bd-node"><div class="bd-label">Data Processing</div><div class="bd-sub">Python scripts</div></div>
+              <div class="bd-node"><div class="bd-label">Filtering &amp; Logic</div><div class="bd-sub">business rules</div></div>
+              <div class="bd-node"><div class="bd-label">Output Generation</div><div class="bd-sub">Excel / Dashboard</div></div>
+              <div class="bd-node"><div class="bd-label">Auto Delivery</div><div class="bd-sub">Email / Upload</div></div>
+            </div>
+            <div style="font-size:11px; color:var(--muted); margin-top:10px; font-family:'JetBrains Mono', monospace;">* abstract flow — no sensitive data</div>
+          </div>
+          <div>
+            <div class="panel-label">IMPACT</div>
+            <div class="kpi-row">
+              <div class="p-box">
+                <div class="stat-big">80%+</div>
+                <div class="stat-sub">Reduced manual work</div>
+              </div>
+              <div class="p-box">
+                <div class="stat-big">Higher</div>
+                <div class="stat-sub">Data accuracy</div>
+              </div>
+              <div class="p-box">
+                <div class="stat-big">Faster</div>
+                <div class="stat-sub">Turnaround for campaign prep</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-label">DEMO (SAMPLE)</div>
+            <img src="p5-demo.jpg" alt="ByteDance TikTok Shop automation dashboard" class="demo-img">
+            <div style="font-size:11px; color:var(--muted); margin-top:8px; font-family:'JetBrains Mono', monospace;">* seller mission dashboard · TikTok Shop</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">© 2026 Yueh Rong Wu · All rights reserved. · Designed &amp; built with care.</footer>
+  </main>
+</div>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id], footer');
+  const navLinks = document.querySelectorAll('.nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const match = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+  // Hero wave canvas — a purple perspective dot grid
+  (function(){
+    const c = document.getElementById('waveCanvas');
+    if (!c) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = c.offsetWidth, h = c.offsetHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    let t = 0;
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      const cols = 38, rows = 22;
+      for (let j = 0; j < rows; j++){
+        for (let i = 0; i < cols; i++){
+          const nx = i / (cols-1);
+          const ny = j / (rows-1);
+          const wave = Math.sin(nx*6 + t*0.8) * 0.5 + Math.sin(ny*4 - t*0.6) * 0.3;
+          const px = nx * w;
+          const py = ny * h + wave * 14;
+          const depth = Math.pow(nx, 1.3) * (1 - ny*0.3);
+          const alpha = 0.15 + depth * 0.55 + Math.max(0, wave) * 0.15;
+          const size = 0.7 + depth * 1.5;
+          const hue = 270 + wave * 15;
+          ctx.fillStyle = `hsla(${hue}, 85%, ${55 + depth*15}%, ${Math.min(alpha, 0.9)})`;
+          ctx.beginPath();
+          ctx.arc(px, py, size, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+      t += 0.012;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+</script>
+
+</body>
+</html>
